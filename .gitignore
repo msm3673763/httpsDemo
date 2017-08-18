@@ -16,3 +16,6 @@
 # ignore page
 /pages/node_modules/*
 /WebContent/pages/*
+
+*.iml
+.idea
