@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * 基于Http的多线程下载的实现
@@ -180,8 +183,23 @@ public class MultipartThreadDownloador {
 
     public static void main(String[] args) {
         try {
-            new MultipartThreadDownloador("https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_11/rabbitmq-server-3.6.11.exe",
-                    "F:/", "rabbitmq-server-3.6.11.exe", 4).download();
+            Set<String> set = new HashSet<String>();
+            set.add("1");
+            set.add("3");
+            set.add("2");
+            set.add("7");
+            set.add("6");
+            set.add("9");
+            set.add("8");
+            set.add("5");
+            set.add("4");
+
+            Iterator<String> it = set.iterator();
+            while (it.hasNext()) {
+                System.out.println(it.next());
+            }
+            //new MultipartThreadDownloador("https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_11/rabbitmq-server-3.6.11.exe",
+            //        "F:/", "rabbitmq-server-3.6.11.exe", 4).download();
         } catch (Exception e) {
             e.printStackTrace();
         }
