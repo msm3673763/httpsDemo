@@ -339,6 +339,107 @@ public class RSAEncrypt {
         return stringBuilder.toString();
     }
 
+    /**
+     * 方式二
+     *
+     * @param bytes
+     * @return
+     */
+    public static String bytes2hex02(byte[] bytes)
+    {
+        StringBuilder sb = new StringBuilder();
+        String tmp = null;
+        for (byte b : bytes)
+        {
+            // 将每个字节与0xFF进行与运算，然后转化为10进制，然后借助于Integer再转化为16进制
+            tmp = Integer.toHexString(0xFF & b);
+            if (tmp.length() == 1)// 每个字节8为，转为16进制标志，2个16进制位
+            {
+                tmp = "0" + tmp;
+            }
+            sb.append(tmp);
+        }
+
+        return sb.toString();
+
+    }
+
+    public static String bytes2hex03(byte[] bytes)
+    {
+        final String HEX = "0123456789abcdef";
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes)
+        {
+            // 取出这个字节的高4位，然后与0x0f与运算，得到一个0-15之间的数据，通过HEX.charAt(0-15)即为16进制数
+            sb.append(HEX.charAt((b >> 4) & 0x0f));
+            // 取出这个字节的低位，与0x0f与运算，得到一个0-15之间的数据，通过HEX.charAt(0-15)即为16进制数
+            sb.append(HEX.charAt(b & 0x0f));
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     *
+     * @Description: 字节数组转为十六进制字符串
+     * @param     bytes byte[]
+     * @return    String
+     * @author ucs_masiming
+     * @throws
+     * @date 2017/8/18 17:02
+     * @version V1.0
+     */
+    public static String bytes2hex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (int i=0;i<bytes.length;i++) {
+            byte b = bytes[i];
+            boolean flag = false;//是否为负数
+            if (b < 0) {
+                flag = true;
+            }
+            int inte = Math.abs(b);
+            if (flag) {
+                inte = inte | 0x80;
+            }
+            String temp = Integer.toHexString(inte & 0xFF);
+            if (temp.length() == 1) {
+                sb.append(0);
+            }
+            sb.append(temp.toLowerCase());
+        }
+        return  sb.toString();
+    }
+
+    /**
+     *
+     * @Description: 16进制字符串转为byte数组
+     * @param     hex
+     * @return    byte[]
+     * @author ucs_masiming
+     * @throws
+     * @date 2017/8/18 17:08
+     * @version V1.0
+     */
+    public static byte[] hex2bytes(String hex) {
+        byte[] bytes = new byte[hex.length()/2];
+        for (int i=0;i<hex.length();i=i+2) {
+            String subStr = hex.substring(i, i + 2);
+            boolean flag = false;//是否为负数
+            int inte = Integer.parseInt(subStr, 16);
+            if (inte > 127) {
+                flag = true;
+            }
+            if (inte == 128) {
+                inte = -128;
+            } else if (flag) {
+                inte = 0 - (inte & 0x7F);
+            }
+            byte b = (byte)inte;
+            bytes[i/2] = b;
+        }
+        return bytes;
+    }
+
     public static void main(String[] args) throws Exception {
         String filepath = "D:/sign/";
         genKeyPair(filepath);
