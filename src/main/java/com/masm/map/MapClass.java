@@ -79,13 +79,14 @@ public class MapClass {
         }
     }
 
+
     public static void main(String[] args) {
         MapClass map = new MapClass();
         map.put("name", "123");
         map.put("age", "23");
         map.put("age", "26");
-
         String age = (String) map.get("age");
         System.out.println(age);
+
     }
 }
