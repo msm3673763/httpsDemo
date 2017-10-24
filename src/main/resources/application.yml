@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: httpsDemo
+  redis:
+    host: 192.168.102.114
+    port: 6380
+    password: 123456
+
+
