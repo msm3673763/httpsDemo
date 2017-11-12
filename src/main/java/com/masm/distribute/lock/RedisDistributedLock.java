@@ -1,4 +1,4 @@
-package com.masm.thread.lock;
+package com.masm.distribute.lock;
 
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;

@@ -1,4 +1,4 @@
-package com.masm.thread.lock;
+package com.masm.distribute.lock;
 
 /**
  * Created by masiming on 2017/10/23.

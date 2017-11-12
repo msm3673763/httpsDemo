@@ -1,6 +1,6 @@
-package com.masm.distribute.atomic.service.impl;
+package com.masm.distribute.service.impl;
 
-import com.masm.distribute.atomic.service.OrderService;
+import com.masm.distribute.service.OrderService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

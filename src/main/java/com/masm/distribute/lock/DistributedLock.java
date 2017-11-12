@@ -1,4 +1,4 @@
-package com.masm.thread.lock;
+package com.masm.distribute.lock;
 
 import java.util.concurrent.TimeUnit;
 

@@ -1,4 +1,4 @@
-package com.masm.thread.lock;
+package com.masm.distribute.lock;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

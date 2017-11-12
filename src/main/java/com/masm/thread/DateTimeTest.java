@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Created by masiming on 2017/10/20.
+ * jdk8中的日期类
  */
 public class DateTimeTest {
 
@@ -82,8 +83,11 @@ public class DateTimeTest {
         System.out.println(now.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:SS")));
         System.out.println(now.format(DateTimeFormatter.BASIC_ISO_DATE));
 
-        Instant timestamp = Instant.now();
-        System.out.println("Default format of Instant="+timestamp);
+        Instant instant = Instant.now();
+        System.out.println("Default format of Instant=" + instant);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        System.out.println(formatter.format(localDateTime));
     }
 
 

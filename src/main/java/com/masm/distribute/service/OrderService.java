@@ -1,4 +1,4 @@
-package com.masm.distribute.atomic.service;
+package com.masm.distribute.service;
 
 /**
  * Created by Administrator on 2017/11/11.
