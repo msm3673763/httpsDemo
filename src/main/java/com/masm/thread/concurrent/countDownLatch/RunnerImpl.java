@@ -29,5 +29,6 @@ public class RunnerImpl {
             }
         }
         System.out.println("运动员人数：" + athlete + ",总分：" + count + ",最高分：" + height);
+        executor.shutdown();
     }
 }
