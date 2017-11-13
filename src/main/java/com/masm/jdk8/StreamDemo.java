@@ -64,14 +64,15 @@ public class StreamDemo {
     public void test2() {
         //内部迭代：迭代操作由Stream API完成
         Stream<Employee> stream = employees.stream().filter(e -> {//filter操作
-            System.out.println("Stream API的中间操作");
+//            System.out.println("Stream API的中间操作");
             return e.getAge() > 35;
         });
-        stream.limit(1);//limit操作 有短路效果 && ||
-        stream.forEach(System.out::println);//终止操作：一次性执行全部内容，即“惰性求值”
+        List<Employee> list = stream.collect(Collectors.toList());
+//        stream.limit(1);//limit操作 有短路效果 && ||
+//        stream.forEach(System.out::println);//终止操作：一次性执行全部内容，即“惰性求值”
 
         //外部迭代
-        Iterator<Employee> it = employees.iterator();
+        Iterator<Employee> it = list.iterator();
         while (it.hasNext()) {
             System.out.println(it.next());
         }
@@ -123,14 +124,9 @@ public class StreamDemo {
         List<String> list = Arrays.asList("ccc", "ddd", "aaa", "eee", "bbb");
         list.stream().sorted().forEach(System.out::println);
 
-        //定制排序
-        employees.stream().sorted((e1, e2) -> {
-            if (e1.getAge() == e2.getAge()) {
-                return e1.getName().compareTo(e2.getName());
-            } else {
-                return ((Integer) e1.getAge()).compareTo(e2.getAge());
-            }
-        }).forEach(System.out::println);
+        //定制排序(降序)
+        Employee employee = employees.stream().sorted((e1, e2) -> e2.getAge() - e1.getAge()).findFirst().get();
+        System.out.println(employee);
     }
 
     /**
@@ -213,19 +209,26 @@ public class StreamDemo {
         System.out.println(aDouble);
 
         //最大值
-        Optional<Employee> optional = employees.stream().collect(Collectors.maxBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
+        Optional<Employee> optional = employees.stream()
+                .collect(Collectors.maxBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
         System.out.println(optional.get().getSalary());
+        optional = employees.stream().max(Comparator.comparing(Employee::getSalary));
+        System.out.println("最大值：" + optional.get().getSalary());
 
         //最小值
-        Optional<Double> op = employees.stream().map(Employee::getSalary).collect(Collectors.minBy((x, y) -> Double.compare(x, y)));
+        Optional<Double> op = employees.stream().map(Employee::getSalary)
+                .collect(Collectors.minBy((x, y) -> Double.compare(x, y)));
         System.out.println(op.get());
+        op = employees.stream().map(Employee::getSalary).min(Comparator.comparingDouble(Double::doubleValue));
+        System.out.println("最小值：" + op.get());
 
         //分组
         Map<String, List<Employee>> map = employees.stream().collect(Collectors.groupingBy(Employee::getStatus));
         System.out.println(map);
 
         //多级分组
-        Map<String, Map<String, List<Employee>>> map1 = employees.stream().collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((e) -> {
+        Map<String, Map<String, List<Employee>>> map1 = employees.stream().collect(
+                Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((e) -> {
             if (e.getAge() <= 30) {
                 return "青年";
             } else if (e.getAge() <= 50) {
