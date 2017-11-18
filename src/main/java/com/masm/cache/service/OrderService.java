@@ -1,4 +1,4 @@
-package com.masm.distribute.service;
+package com.masm.cache.service;
 
 /**
  * Created by Administrator on 2017/11/11.

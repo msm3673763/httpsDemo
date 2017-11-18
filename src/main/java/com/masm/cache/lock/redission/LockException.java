@@ -1,4 +1,4 @@
-package com.masm.distribute.lock.redission;
+package com.masm.cache.lock.redission;
 
 /**
  * Created by masiming on 2017/10/23.

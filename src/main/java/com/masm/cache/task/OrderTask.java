@@ -1,6 +1,6 @@
-package com.masm.distribute.task;
+package com.masm.cache.task;
 
-import com.masm.distribute.service.OrderService;
+import com.masm.cache.service.OrderService;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 
 import java.util.concurrent.CountDownLatch;

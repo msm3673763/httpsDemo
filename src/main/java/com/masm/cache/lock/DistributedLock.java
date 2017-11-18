@@ -1,6 +1,6 @@
-package com.masm.distribute.lock;
+package com.masm.cache.lock;
 
-import com.masm.distribute.lock.redission.LockException;
+import com.masm.cache.lock.redission.LockException;
 
 import java.util.concurrent.TimeUnit;
 

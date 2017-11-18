@@ -1,6 +1,6 @@
-package com.masm.distribute.lock.redission;
+package com.masm.cache.lock.redission;
 
-import com.masm.distribute.lock.DistributedLock;
+import com.masm.cache.lock.DistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 

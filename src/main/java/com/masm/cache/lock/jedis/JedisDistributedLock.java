@@ -1,6 +1,6 @@
-package com.masm.distribute.lock.jedis;
+package com.masm.cache.lock.jedis;
 
-import com.masm.distribute.lock.DistributedLock;
+import com.masm.cache.lock.DistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by masiming on 2017/11/18 10:04.
- * 不能用于分布式环境，分布式环境需要用到redLock
+ * 不能在redis集群环境中使用（集群环境需要用到redLock）
  */
 public class JedisDistributedLock implements DistributedLock {
 

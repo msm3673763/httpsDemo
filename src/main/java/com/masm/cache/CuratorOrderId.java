@@ -1,8 +1,8 @@
-package com.masm.distribute;
+package com.masm.cache;
 
-import com.masm.distribute.service.OrderService;
-import com.masm.distribute.service.impl.NoLockOrderServiceImpl;
-import com.masm.distribute.task.OrderTask;
+import com.masm.cache.service.OrderService;
+import com.masm.cache.service.impl.NoLockOrderServiceImpl;
+import com.masm.cache.task.OrderTask;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;

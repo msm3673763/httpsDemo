@@ -1,8 +1,8 @@
-package com.masm.distribute;
+package com.masm.cache;
 
-import com.masm.distribute.service.OrderService;
-import com.masm.distribute.service.impl.AtomicOrderServiceImpl;
-import com.masm.distribute.task.OrderTask;
+import com.masm.cache.service.OrderService;
+import com.masm.cache.service.impl.AtomicOrderServiceImpl;
+import com.masm.cache.task.OrderTask;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
