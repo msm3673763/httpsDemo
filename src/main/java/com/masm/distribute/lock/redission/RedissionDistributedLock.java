@@ -1,5 +1,6 @@
-package com.masm.distribute.lock;
+package com.masm.distribute.lock.redission;
 
+import com.masm.distribute.lock.DistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 
@@ -10,13 +11,13 @@ import java.util.concurrent.TimeUnit;
  * 工具类：基于Redisson实现分布式锁
  */
 @Slf4j
-public class RedisDistributedLock implements DistributedLock {
+public class RedissionDistributedLock implements DistributedLock {
 
     private RLock rLock;
 
     public static final int INFINITE_LEASE_TIME = -1;
 
-    public RedisDistributedLock(RLock rLock) {
+    public RedissionDistributedLock(RLock rLock) {
         this.rLock = rLock;
     }
 

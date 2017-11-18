@@ -1,5 +1,6 @@
-package com.masm.distribute.lock;
+package com.masm.distribute.lock.redission;
 
+import com.masm.distribute.lock.DistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
@@ -91,6 +92,6 @@ public class DistributedLockFactory {
      */
     public DistributedLock getLock(String key) {
         RLock rLock = client.getLock(LOCK_KEY_PREFIX + key);
-        return new RedisDistributedLock(rLock);
+        return new RedissionDistributedLock(rLock);
     }
 }

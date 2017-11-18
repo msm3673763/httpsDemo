@@ -1,5 +1,6 @@
-package com.masm.distribute;
+package com.masm.distribute.lock.jedis;
 
+import com.masm.distribute.lock.DistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -11,11 +12,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by masiming on 2017/11/18 10:04.
+ * 不能用于分布式环境，分布式环境需要用到redLock
  */
-public class RedisDistributedLock {
+public class JedisDistributedLock implements DistributedLock {
 
     @Autowired
     JedisPool jedisPool;
@@ -23,22 +26,27 @@ public class RedisDistributedLock {
     private static final String LOCK_NODE = "LOCK";
     private ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
-    public Boolean lock() {
+    @Override
+    public void lock(long waitTime, TimeUnit timeUnit) {
         Jedis jedis = jedisPool.getResource();
         String value = UUID.randomUUID().toString();
         try {
-            String ret = jedis.set(LOCK_NODE, value, "NX", "PX", 10000);
+            String ret = jedis.set(LOCK_NODE, value, "NX", "PX", timeUnit.toSeconds(10000));
             if (!StringUtils.isEmpty(ret) && "OK".equals(ret)) {
                 threadLocal.set(value);
-                return true;
             }
-            return false;
         } finally {
             jedis.close();
         }
     }
 
-    public void nuLock() throws IOException {
+    @Override
+    public void lock(long waitTime, long leaseTime, TimeUnit timeUnit) {
+        // TODO
+    }
+
+    @Override
+    public void unLock() {
         Jedis jedis = jedisPool.getResource();
         String script = null;
         try {
@@ -53,8 +61,22 @@ public class RedisDistributedLock {
             List<String> args = new ArrayList<>();
             args.add(threadLocal.get());
             jedis.eval(script, keys, args);
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             jedis.close();
         }
+    }
+
+    @Override
+    public boolean isLock() {
+        // TODO
+        return false;
+    }
+
+    @Override
+    public boolean isHeldByCurrentThread() {
+        // TODO
+        return false;
     }
 }
