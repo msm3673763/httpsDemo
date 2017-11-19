@@ -1,7 +1,7 @@
 package com.masm.cache;
 
 import com.masm.DemoApplication;
-import com.masm.cache.service.OrderDetailService;
+import com.masm.service.OrderDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

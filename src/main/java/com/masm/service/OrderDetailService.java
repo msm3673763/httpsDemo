@@ -1,6 +1,6 @@
 package com.masm.service;
 
-import com.masm.bean.OrderDetail;
+import com.masm.bean.TOrderDetail;
 
 import java.math.BigDecimal;
 
@@ -9,13 +9,13 @@ import java.math.BigDecimal;
  */
 public interface OrderDetailService {
 
-    int addOrderDetail(OrderDetail orderDetail);
+    int addOrderDetail(TOrderDetail orderDetail);
 
     int delOrderDetail(String id);
 
-    int updateOrderDetail(OrderDetail orderDetail);
+    int updateOrderDetail(TOrderDetail orderDetail);
 
-    OrderDetail getOrderDetail(String id);
+    TOrderDetail getOrderDetail(String id);
 
     BigDecimal getOrderAmount(String userId);
 

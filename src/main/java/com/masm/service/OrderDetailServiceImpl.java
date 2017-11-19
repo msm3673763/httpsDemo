@@ -3,11 +3,10 @@ package com.masm.service;
 import com.google.common.base.Charsets;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
-import com.masm.bean.OrderDetail;
+import com.masm.bean.TOrderDetail;
 import com.masm.cache.lock.DistributedLock;
-import com.masm.cache.lock.redission.DistributedLockUtil;
-import com.masm.mapper.OrderDetailMapper;
 import com.masm.utils.RedisUtil;
+import com.masm.mapper.TOrderDetailMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private static final String CACHE_BACKUP = "_backup";
 
     @Autowired
-    private OrderDetailMapper orderDetailMapper;
+    private TOrderDetailMapper orderDetailMapper;
 
     private BloomFilter<String> bloomFilter;
 
@@ -45,7 +44,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public int addOrderDetail(OrderDetail orderDetail) {
+    public int addOrderDetail(TOrderDetail orderDetail) {
         return orderDetailMapper.insert(orderDetail);
     }
 
@@ -55,12 +54,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public int updateOrderDetail(OrderDetail orderDetail) {
+    public int updateOrderDetail(TOrderDetail orderDetail) {
         return orderDetailMapper.updateByPrimaryKeySelective(orderDetail);
     }
 
     @Override
-    public OrderDetail getOrderDetail(String id) {
+    public TOrderDetail getOrderDetail(String id) {
         return orderDetailMapper.selectByPrimaryKey(id);
     }
 
@@ -71,7 +70,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
      */
     @Override
     public BigDecimal getOrderAmount(String userId) {
-        if (!bloomFilter.mightContain(userId)) {//解决缓存击穿
+        if (bloomFilter!=null && !bloomFilter.mightContain(userId)) {//解决缓存击穿
             return null;
         }
 
@@ -83,12 +82,14 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
         DistributedLock lock = null;
         try {
-            lock = DistributedLockUtil.setLock(userId);//尝试获取分布式锁，获取不到抛出异常
+            lock = RedisUtil.setLock("LOCK_" + userId);//尝试获取分布式锁，获取不到抛出异常
 
             //获取到锁，查询数据库，并将值重新设置到主缓存和备份缓存
             BigDecimal orderAmount = orderDetailMapper.getOrderAmount(userId);
-            RedisUtil.set(userId, orderAmount, 1000);
-            RedisUtil.set(userId.concat(CACHE_BACKUP), orderAmount,1000);
+            if (!Objects.isNull(orderAmount)) {
+                RedisUtil.set(userId, orderAmount, 1000);
+                RedisUtil.set(userId.concat(CACHE_BACKUP), orderAmount, 1000);
+            }
             return orderAmount;
         } catch(Exception e) {//获取分布式锁失败，从备份缓存中取
             log.error(e.getMessage(), e);

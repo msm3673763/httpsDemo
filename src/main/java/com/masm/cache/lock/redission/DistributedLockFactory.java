@@ -94,4 +94,8 @@ public class DistributedLockFactory {
         RLock rLock = client.getLock(LOCK_KEY_PREFIX + key);
         return new RedissionDistributedLock(rLock);
     }
+
+    public RedissonClient getRedissonClient() {
+        return client;
+    }
 }

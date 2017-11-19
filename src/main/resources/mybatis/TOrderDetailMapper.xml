@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.masm.mapper.TOrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.masm.bean.TOrderDetail" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="gtype" property="gtype" jdbcType="CHAR" />
+    <result column="gcode" property="gcode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, gtype, gcode, create_time, price, user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_detail
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_order_detail
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.masm.bean.TOrderDetail" >
+    insert into t_order_detail (code, gtype, gcode, 
+      create_time, price, user_id
+      )
+    values (#{code,jdbcType=VARCHAR}, #{gtype,jdbcType=CHAR}, #{gcode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{price,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.masm.bean.TOrderDetail" >
+    insert into t_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="gtype != null" >
+        gtype,
+      </if>
+      <if test="gcode != null" >
+        gcode,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="gtype != null" >
+        #{gtype,jdbcType=CHAR},
+      </if>
+      <if test="gcode != null" >
+        #{gcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.masm.bean.TOrderDetail" >
+    update t_order_detail
+    <set >
+      <if test="gtype != null" >
+        gtype = #{gtype,jdbcType=CHAR},
+      </if>
+      <if test="gcode != null" >
+        gcode = #{gcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.masm.bean.TOrderDetail" >
+    update t_order_detail
+    set gtype = #{gtype,jdbcType=CHAR},
+      gcode = #{gcode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DECIMAL},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getDistinctUserIds" resultType="string">
+    select DISTINCT user_id from t_order_detail
+  </select>
+
+  <select id="getOrderAmount" resultType="java.math.BigDecimal" parameterType="string">
+    select sum(price) from t_order_detail where user_id = #{userId, jdbcType=VARCHAR}
+  </select>
+</mapper>
