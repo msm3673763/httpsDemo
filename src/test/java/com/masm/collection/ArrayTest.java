@@ -1,4 +1,4 @@
-package com.masm.map;
+package com.masm.collection;
 
 import org.junit.Test;
 

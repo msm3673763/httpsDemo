@@ -27,7 +27,6 @@ public class ConvertPFX {
      * 
     * @Title: coverTokeyStore 
     * @Description: PKCS12转换为JKS 
-    * @param     入参
     * @return void    返回类型
     * @author masm 
     * @throws
@@ -74,7 +73,6 @@ public class ConvertPFX {
      * 
     * @Title: coverToPfx 
     * @Description: JKS转换为PKCS12 
-    * @param     入参
     * @return void    返回类型
     * @author masm 
     * @throws

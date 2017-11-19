@@ -1,4 +1,4 @@
-package com.masm.map;/*
+package com.masm.collection;/*
  * Copyright (c) 2017 UCSMY.
  * All rights reserved.
  * Created on 2017/8/21

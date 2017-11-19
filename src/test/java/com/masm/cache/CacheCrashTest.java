@@ -51,7 +51,8 @@ public class CacheCrashTest {
 
         try {
             //阻塞主线程，等待所有子线程运行完毕
-            Thread.currentThread().join();
+//            Thread.currentThread().join();
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
