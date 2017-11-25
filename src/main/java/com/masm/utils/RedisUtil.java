@@ -48,6 +48,11 @@ public class RedisUtil {
      */
     private static final int LOCK_LEASE_TIME = 60 * 5;
 
+    /**
+     * 缓存过期时间
+     */
+    private static final long CACHE_EXPIRE_TIME = 60;
+
     private static final ConcurrentHashMap<String, DistributedLockFactory> lockMap = new ConcurrentHashMap<String, DistributedLockFactory>();
 
     /**
@@ -70,14 +75,16 @@ public class RedisUtil {
         return lock;
     }
 
-    public static void set(String key, Object value, long timeout) {
+    public static void set(String key, Object value, long timeout, TimeUnit unit) {
         String singleURL = "redis://".concat(redisHost).concat(":").concat(redisPort);
         DistributedLockFactory lockFactory = lockMap.get(singleURL);
 
         lockFactory = checkExist(singleURL, lockFactory);
 
         RedissonClient client = lockFactory.getRedissonClient();
-        client.getBucket(key).set(value, timeout, TimeUnit.SECONDS);
+        timeout = timeout>0 ? timeout : CACHE_EXPIRE_TIME;
+        unit = Objects.nonNull(unit) ? unit : TimeUnit.SECONDS;
+        client.getBucket(key).set(value, timeout, unit);
     }
 
     public static Object get(String key) {

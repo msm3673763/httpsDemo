@@ -102,6 +102,13 @@
           <version>20.0</version>
       </dependency>
 
+      <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+      <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>fastjson</artifactId>
+          <version>1.2.41</version>
+      </dependency>
+
       <!-- zookeeper分布式锁框架 -->
       <dependency>
           <groupId>org.apache.curator</groupId>

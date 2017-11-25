@@ -1,12 +1,13 @@
-package com.masm.service;
+package com.masm.service.impl;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 import com.masm.bean.TOrderDetail;
 import com.masm.cache.lock.DistributedLock;
-import com.masm.utils.RedisUtil;
 import com.masm.mapper.TOrderDetailMapper;
+import com.masm.service.OrderDetailService;
+import com.masm.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by masiming on 2017/11/18 22:19.
@@ -29,6 +31,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Autowired
     private TOrderDetailMapper orderDetailMapper;
+    @Autowired
+    private CacheTemplate<BigDecimal> cacheTemplate;
 
     private BloomFilter<String> bloomFilter;
 
@@ -87,8 +91,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             //获取到锁，查询数据库，并将值重新设置到主缓存和备份缓存
             BigDecimal orderAmount = orderDetailMapper.getOrderAmount(userId);
             if (!Objects.isNull(orderAmount)) {
-                RedisUtil.set(userId, orderAmount, 1000);
-                RedisUtil.set(userId.concat(CACHE_BACKUP), orderAmount, 1000);
+                RedisUtil.set(userId, orderAmount, 60, TimeUnit.SECONDS);//主缓存
+                RedisUtil.set(userId.concat(CACHE_BACKUP), orderAmount,10, TimeUnit.MINUTES);//备份缓存
             }
             return orderAmount;
         } catch(Exception e) {//获取分布式锁失败，从备份缓存中取
@@ -99,5 +103,16 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 lock.unLock();
             }
         }
+    }
+
+    @Override
+    public BigDecimal getOrderAmountByTemplate(String userId) {
+        if (bloomFilter!=null && !bloomFilter.mightContain(userId)) {//解决缓存击穿
+            return null;
+        }
+        BigDecimal bigDecimal = cacheTemplate.getCache(userId, 60, TimeUnit.SECONDS, () ->
+            orderDetailMapper.getOrderAmount(userId)
+        );
+        return bigDecimal;
     }
 }

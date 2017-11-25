@@ -19,4 +19,6 @@ public interface OrderDetailService {
 
     BigDecimal getOrderAmount(String userId);
 
+    BigDecimal getOrderAmountByTemplate(String userId);
+
 }
