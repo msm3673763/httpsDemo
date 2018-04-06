@@ -5,8 +5,14 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 订单明细bean
+ *
+ * @author masiming
+ * @create 2017/12/09
+ **/
 @Data
-public class TOrderDetail {
+public class OrderDetail {
     private String code;
 
     private String gtype;

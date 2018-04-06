@@ -9,8 +9,11 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * Created by masiming on 2017/11/18 10:26.
- */
+ * redis配置
+ *
+ * @author masiming
+ * @create 2017/11/18
+ **/
 @Configuration
 @EnableCaching
 public class RedisCacheConfiguration extends CachingConfigurerSupport {

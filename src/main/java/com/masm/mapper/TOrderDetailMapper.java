@@ -1,6 +1,6 @@
 package com.masm.mapper;
 
-import com.masm.bean.TOrderDetail;
+import com.masm.bean.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,15 +11,15 @@ import java.util.List;
 public interface TOrderDetailMapper {
     int deleteByPrimaryKey(String code);
 
-    int insert(TOrderDetail record);
+    int insert(OrderDetail record);
 
-    int insertSelective(TOrderDetail record);
+    int insertSelective(OrderDetail record);
 
-    TOrderDetail selectByPrimaryKey(String code);
+    OrderDetail selectByPrimaryKey(String code);
 
-    int updateByPrimaryKeySelective(TOrderDetail record);
+    int updateByPrimaryKeySelective(OrderDetail record);
 
-    int updateByPrimaryKey(TOrderDetail record);
+    int updateByPrimaryKey(OrderDetail record);
 
     List<String> getDistinctUserIds();
 

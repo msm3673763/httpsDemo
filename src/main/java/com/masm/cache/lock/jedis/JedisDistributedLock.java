@@ -15,15 +15,18 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by masiming on 2017/11/18 10:04.
  * 不能在redis集群环境中使用（集群环境需要用到redLock）
- */
+ *
+ * @author masiming
+ * @create 2017/11/18
+ **/
 public class JedisDistributedLock implements DistributedLock {
 
     @Autowired
     JedisPool jedisPool;
 
     private static final String LOCK_NODE = "LOCK";
+    private static final String OK = "OK";
     private ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
     @Override
@@ -32,7 +35,7 @@ public class JedisDistributedLock implements DistributedLock {
         String value = UUID.randomUUID().toString();
         try {
             String ret = jedis.set(LOCK_NODE, value, "NX", "PX", timeUnit.toSeconds(10000));
-            if (!StringUtils.isEmpty(ret) && "OK".equals(ret)) {
+            if (!StringUtils.isEmpty(ret) && OK.equals(ret)) {
                 threadLocal.set(value);
             }
         } finally {

@@ -5,9 +5,11 @@ import com.masm.cache.lock.redission.LockException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by masiming on 2017/10/23.
  * 分布式锁接口
- */
+ *
+ * @author masiming
+ * @create 2017/10/23
+ **/
 public interface DistributedLock {
 
     /**

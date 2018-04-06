@@ -3,15 +3,18 @@ package com.masm.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 
 /**
- * Created by masiming on 2017/11/18 22:12.
  * 使用druid连接池
- */
-//@Configuration
+ *
+ * @author masiming
+ * @create 2017/11/18
+ **/
+@Configuration
 public class DataSourceConfig {
 
     @Value("${spring.datasource.url}")
@@ -68,8 +71,13 @@ public class DataSourceConfig {
     @Value("{spring.datasource.connectionProperties}")
     private String connectionProperties;
 
-    @Bean("dataSource")     //声明其为Bean实例
-    @Primary  //在同样的DataSource中，首先使用被标注的DataSource
+    /**
+     * @Bean 声明其为Bean实例
+     * @Primary 在同样的DataSource中，首先使用被标注的DataSource
+     * @return
+     */
+    @Bean("dataSource")
+    @Primary
     public DataSource dataSource(){
         DruidDataSource datasource = new DruidDataSource();
 

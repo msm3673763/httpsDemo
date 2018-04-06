@@ -3,7 +3,7 @@ package com.masm.service.impl;
 import com.google.common.base.Charsets;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
-import com.masm.bean.TOrderDetail;
+import com.masm.bean.OrderDetail;
 import com.masm.cache.lock.DistributedLock;
 import com.masm.mapper.TOrderDetailMapper;
 import com.masm.service.OrderDetailService;
@@ -48,7 +48,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public int addOrderDetail(TOrderDetail orderDetail) {
+    public int addOrderDetail(OrderDetail orderDetail) {
         return orderDetailMapper.insert(orderDetail);
     }
 
@@ -58,12 +58,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public int updateOrderDetail(TOrderDetail orderDetail) {
+    public int updateOrderDetail(OrderDetail orderDetail) {
         return orderDetailMapper.updateByPrimaryKeySelective(orderDetail);
     }
 
     @Override
-    public TOrderDetail getOrderDetail(String id) {
+    public OrderDetail getOrderDetail(String id) {
         return orderDetailMapper.selectByPrimaryKey(id);
     }
 

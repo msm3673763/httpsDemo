@@ -7,9 +7,11 @@ import org.redisson.api.RLock;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by masiming on 2017/10/23.
  * 工具类：基于Redisson实现分布式锁
- */
+ *
+ * @author masiming
+ * @create 2017/10/23
+ **/
 @Slf4j
 public class RedissionDistributedLock implements DistributedLock {
 
@@ -46,7 +48,7 @@ public class RedissionDistributedLock implements DistributedLock {
     public void unLock() {
         try {
             rLock.unlock();
-        } catch (IllegalMonitorStateException e) {//NOSONAR
+        } catch (IllegalMonitorStateException e) {
             // unLock()的时候有可能leaseTime到了锁释放了，所以需要catch IllegalMonitorStateException
             // 注意：正常的情况下，典型的内存锁实现下，不能只捕捉此异常而不做任何处理
             log.warn("unlock fail : "+ e.getMessage());

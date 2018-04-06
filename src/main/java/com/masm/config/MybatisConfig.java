@@ -17,10 +17,13 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import javax.sql.DataSource;
 
 /**
- * Created by masiming on 2017/11/18 21:11.
- */
+ * Mybatis配置
+ *
+ * @author masiming
+ * @create 2017/11/18
+ **/
 @Configuration
-@EnableTransactionManagement//加上这个注解，使得支持事务
+@EnableTransactionManagement
 public class MybatisConfig implements TransactionManagementConfigurer {
 
     @Autowired

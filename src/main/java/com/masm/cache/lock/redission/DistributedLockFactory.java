@@ -8,9 +8,11 @@ import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 
 /**
- * Created by masiming on 2017/10/23.
  * 工具类：获取分布式锁对象
- */
+ *
+ * @author masiming
+ * @create 2017/10/23
+ **/
 @Slf4j
 public class DistributedLockFactory {
 
